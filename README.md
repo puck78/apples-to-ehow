@@ -2,7 +2,7 @@
 The zany world of eHow
 
 ##Welcome to the zany world of eHow!  
-##Only the minds at this self-help guru megastore \ncould come up with topicslike this.
+##Only the minds at this self-help guru megastore could come up with topicslike this.
 
 #Game play
 - Click "Spin" below to accessa a random picture from eHow.
