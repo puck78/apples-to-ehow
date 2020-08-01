@@ -2,7 +2,7 @@
 The zany world of eHow
 
 ##Welcome to the zany world of eHow!  Only the minds at this selfhelp guru megastore \ncould come up with transcendent graphics like this.
-##Only the minds at this selfhelp guru megastore \ncould come up with transcendent graphics like this.
+##Only the minds at this self-help guru megastore \ncould come up with transcendent graphics like this.
 
 #Game play
 - Click "Spin" below to accessa a random picture from eHow.
