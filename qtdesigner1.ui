@@ -89,7 +89,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>220</x>
      <y>300</y>
      <width>75</width>
      <height>41</height>
@@ -112,7 +112,7 @@
     <rect>
      <x>30</x>
      <y>60</y>
-     <width>431</width>
+     <width>441</width>
      <height>41</height>
     </rect>
    </property>
@@ -123,8 +123,8 @@
     </font>
    </property>
    <property name="text">
-    <string>Welcome to the zany world of eHow!  Only the minds at this selfhelp guru megastore 
-could come up with transcendent graphics like this.</string>
+    <string>Welcome to the zany world of eHow!  Only the minds at this selfhelp
+guru megastore could come up with topics like these.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -176,31 +176,10 @@ Then the chooser picks the winner.</string>
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>40057 (7).png</pixmap>
+    <pixmap>assets/40057 (7).png</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>300</y>
-     <width>181</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Copperplate Gothic Bold</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Prime images</string>
    </property>
   </widget>
   <widget class="Line" name="line">

@@ -12,6 +12,11 @@ import qdarkgraystyle
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 
+import praw
+import wget
+import time
+from PIL import Image
+
 import random
 import re
 from glob import glob
@@ -26,15 +31,15 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType('qtdesigner1.ui')
 class MyPopup(QWidget):
 
 
-    def __init__(self, image_file, dir):
+    def __init__(self, image_file, title):
         self.image_file = image_file
-        self.dir = dir
+        self.title = title
         widget = QWidget.__init__(self)
 
         self.label = QLabel()
         cwd = os.getcwd()
         # print(dir + '\\' + image_file)
-        pixmap = QPixmap(dir + '\\' + image_file)
+        pixmap = QPixmap(image_file)
         self.label.setPixmap(pixmap)
         self.label.show()
 
@@ -42,34 +47,13 @@ class MyPopup(QWidget):
 
     def closePopup(self):
 
-        parsed_image_file = self.image_file.rstrip()
-        dir = self.dir
-        image_file_without_extension = re.sub(r'(\w{3})$', '', parsed_image_file)
 
-        image_file_text_filename = dir + '\\' + str(image_file_without_extension) + "txt"
-        print(image_file_text_filename)
-
-        file = open(image_file_text_filename, "r+")
-        lines = file.readlines()
-        x = 0
-        text = ""
-        for line in lines:
-
-            if "http" in line:
-                text = line
-                break
-
-            x += 1
-        # text = lines[0]
-        print("Text: " + str(text) + "\n")
-
-        print(text)
-        file.close()
         self.msgBox = QMessageBox()
         self.msgBox.setIcon(QMessageBox.Information)
-        self.msgBox.setText(text)
+        self.msgBox.setText(self.title)
         self.msgBox.setWindowTitle("QMessageBox Example")
         self.msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        os.remove(self.image_file)
         self.msgBox.show()
         self.label.close()
 
@@ -110,11 +94,11 @@ class my_win(QtWidgets.QMainWindow, Ui_MainWindow):
         self.app.setStyleSheet(qss)
         file.close()
         self.show()
-        self.button = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
-        self.button.clicked.connect(self.primeImages)
+        # self.button = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
+        # self.button.clicked.connect(self.primeImages)
 
         self.button = self.findChild(QtWidgets.QPushButton, 'pushButton')
-        self.button.clicked.connect(self.pickDirectory)
+        self.button.clicked.connect(self.play)
 
 
 
@@ -218,6 +202,35 @@ class my_win(QtWidgets.QMainWindow, Ui_MainWindow):
         # msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         # msgBox.buttonClicked.connect(msgButtonClick)
 
+    def play(self):
+        r = praw.Reddit(client_id='oi8xE60CLDdltQ',
+                             client_secret='CTZADqfxChc37no9ff7j4cynDhc',
+                             user_agent='python/urllib')
+
+        already_done = []
+        checkWords = ['i.imgur.com',  'jpg', 'png', 'gif', 'gfycat.com', 'webm',]
+        gyfwords = ['gfycat.com']
+        sub = 'disneyvacation'
+        subreddit = r.subreddit(sub)
+        submission = subreddit.random()
+
+        url_text = submission.url
+
+        filename = re.sub(r'^https\:\/\/(.+\/)*([^\.]+)(\..+)$', r'\2', url_text)
+        extension = re.sub(r'^https\:\/\/(.+\/)*(.+)(\..+)$', r'\3', url_text)
+
+        image_file = wget.download(url_text)
+
+        comments = submission.comments.list()
+        print(comments)
+        # file = open(cwd + '\\Output\\' + filename + '\\' + filename + '.txt', "w+")
+        # title = ""
+        for comment in comments:
+            if 'http' in comment.body.encode('utf-8').decode('utf-8'):
+                title = comment.body.encode('utf-8').decode('utf-8')
+
+        self.openPopup(image_file, title)
+
     def pickDirectory(self):
         cwd = os.getcwd()
         print(cwd + '\\Output\\')
@@ -250,9 +263,9 @@ class my_win(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.btn.clicked.connect(self.doAction)
 
 
-    def openPopup(self, image_file, dir):
+    def openPopup(self, image_file, title):
         print("Opening a new popup window...")
-        self.w = MyPopup(image_file, dir)
+        self.w = MyPopup(image_file, title)
 
 
 
